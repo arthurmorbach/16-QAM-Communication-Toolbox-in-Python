@@ -1,5 +1,5 @@
 bluepy
-pip install numpy
-pip install commpy
-pip install math
-pip install scipy
+numpy
+commpy
+math
+scipy

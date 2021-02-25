@@ -1,4 +1,4 @@
-bluepy
 numpy
-math
+scikit-commpy
+python-math
 scipy

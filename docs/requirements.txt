@@ -1,5 +1,4 @@
 bluepy
 numpy
-commpy
 math
 scipy

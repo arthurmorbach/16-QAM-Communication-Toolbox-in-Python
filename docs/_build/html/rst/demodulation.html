@@ -1,0 +1,550 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Demodulation &mdash; 16-QAM Communication System 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Exemple" href="exemples.html" />
+    <link rel="prev" title="Channel" href="channel.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> 16-QAM Communication System
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modulation.html">Modulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="channel.html">Channel</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Demodulation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#phase-locked-loop">Phase Locked Loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mixer">Mixer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#low-pass-filter">Low Pass Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#matched-filter">Matched Filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#downsampler">Downsampler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#demapper">Demapper</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exemples.html">Exemple</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BER_SNR_analysis.html">BER Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Need Help</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">16-QAM Communication System</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Demodulation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/rst/demodulation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="demodulation">
+<h1>Demodulation<a class="headerlink" href="#demodulation" title="Permalink to this headline">¶</a></h1>
+<p>Module containing all the functions used in the demodulation process of a 16 QAM communication system.</p>
+<div class="section" id="phase-locked-loop">
+<h2>Phase Locked Loop<a class="headerlink" href="#phase-locked-loop" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">demodulation.</code><code class="sig-name descname">PLL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_signal</span></em>, <em class="sig-param"><span class="n">Fs</span></em>, <em class="sig-param"><span class="n">lenght</span></em>, <em class="sig-param"><span class="n">N</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Synchronizes the input carryer signal with the local oscillator to avoid crosstalk due to phase and frequency differences between TX and RX.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_signal</strong> (<em>1D array of floats</em>) – Complex signal received at the input of the demodulator.</p></li>
+<li><p><strong>Fs</strong> (<em>float</em>) – Sampling frequency.</p></li>
+<li><p><strong>lenght</strong> (<em>int</em>) – Lenght of the output vector.</p></li>
+<li><p><strong>N</strong> (<em>int</em>) – Samples per period of the sinusuidal wave.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>cos_out</strong> (<em>1D array of floats</em>) – Cosine wave synchronized with the input signal.</p></li>
+<li><p><strong>sin_out</strong> (<em>1D array of floats</em>) – Sine wave synchronized with the input signal.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+
+<span class="k">def</span> <span class="nf">PLL</span><span class="p">(</span><span class="n">input_signal</span><span class="p">,</span> <span class="n">Fs</span><span class="p">,</span> <span class="n">lenght</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+   <span class="n">zeta</span> <span class="o">=</span> <span class="o">.</span><span class="mi">707</span>  <span class="c1"># damping factor</span>
+   <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+   <span class="n">Bn</span> <span class="o">=</span> <span class="mf">0.01</span><span class="o">*</span><span class="n">Fs</span>  <span class="c1">#Noise Bandwidth</span>
+   <span class="n">K_0</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># NCO gain</span>
+   <span class="n">K_d</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span>  <span class="c1"># Phase Detector gain</span>
+   <span class="n">K_p</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">K_d</span><span class="o">*</span><span class="n">K_0</span><span class="p">))</span><span class="o">*</span><span class="p">((</span><span class="mi">4</span><span class="o">*</span><span class="n">zeta</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">zeta</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">zeta</span><span class="p">))))</span> <span class="o">*</span> \
+      <span class="p">(</span><span class="n">Bn</span><span class="o">/</span><span class="n">Fs</span><span class="p">)</span>  <span class="c1"># Proporcional gain</span>
+   <span class="n">K_i</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">K_d</span><span class="o">*</span><span class="n">K_0</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="p">(</span><span class="n">zeta</span><span class="o">+</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">zeta</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span> <span class="o">*</span> \
+      <span class="p">(</span><span class="n">Bn</span><span class="o">/</span><span class="n">Fs</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># Integrator gain</span>
+   <span class="n">integrator_out</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="n">phase_estimate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">lenght</span><span class="p">)</span>
+   <span class="n">e_D</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># phase-error output</span>
+   <span class="n">e_F</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># loop filter output</span>
+   <span class="n">sin_out_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">lenght</span><span class="p">)</span>
+   <span class="n">cos_out_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">lenght</span><span class="p">)</span>
+   <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lenght</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+      <span class="c1"># phase detector</span>
+      <span class="k">try</span><span class="p">:</span>
+            <span class="n">e_D</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+               <span class="n">math</span><span class="o">.</span><span class="n">atan</span><span class="p">(</span><span class="n">input_signal</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">cos_out_n</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">sin_out_n</span><span class="p">[</span><span class="n">n</span><span class="p">])))</span>
+      <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="n">e_D</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+      <span class="c1"># loop filter</span>
+      <span class="n">integrator_out</span> <span class="o">+=</span> <span class="n">K_i</span> <span class="o">*</span> <span class="n">e_D</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+      <span class="n">e_F</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">K_p</span> <span class="o">*</span> <span class="n">e_D</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">integrator_out</span><span class="p">)</span>
+      <span class="c1"># NCO</span>
+      <span class="k">try</span><span class="p">:</span>
+            <span class="n">phase_estimate</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">phase_estimate</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">K_0</span> <span class="o">*</span> <span class="n">e_F</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+      <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="n">phase_estimate</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">K_0</span> <span class="o">*</span> <span class="n">e_F</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+      <span class="n">sin_out_n</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">/</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">phase_estimate</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+      <span class="n">cos_out_n</span><span class="p">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">/</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">phase_estimate</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+
+   <span class="n">sin_out_n</span> <span class="o">=</span> <span class="o">-</span><span class="n">sin_out_n</span>
+   <span class="n">cos_out</span> <span class="o">=</span> <span class="n">cos_out_n</span><span class="p">[</span><span class="mi">280</span><span class="p">:</span><span class="mi">400</span><span class="p">]</span>
+   <span class="n">sin_out</span> <span class="o">=</span> <span class="n">sin_out_n</span><span class="p">[</span><span class="mi">280</span><span class="p">:</span><span class="mi">400</span><span class="p">]</span>
+
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">18</span><span class="p">):</span>
+      <span class="n">cos_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">cos_out</span><span class="p">,</span> <span class="n">cos_out_n</span><span class="p">[</span><span class="mi">280</span><span class="p">:</span><span class="mi">400</span><span class="p">],</span> <span class="n">cos_out_n</span><span class="p">[</span><span class="mi">280</span><span class="p">:</span><span class="mi">400</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+      <span class="n">sin_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">sin_out</span><span class="p">,</span> <span class="n">sin_out_n</span><span class="p">[</span><span class="mi">280</span><span class="p">:</span><span class="mi">400</span><span class="p">],</span> <span class="n">sin_out_n</span><span class="p">[</span><span class="mi">280</span><span class="p">:</span><span class="mi">400</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+   <span class="k">return</span><span class="p">(</span><span class="n">cos_out</span><span class="p">,</span> <span class="n">sin_out</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/PLL.png"><img alt="../_images/PLL.png" class="align-center" src="../_images/PLL.png" style="width: 600px;" /></a>
+<p>Image source: <a class="reference external" href="https://wirelesspi.com/phase-locked-loop-pll-in-a-software-defined-radio-sdr/">https://wirelesspi.com/phase-locked-loop-pll-in-a-software-defined-radio-sdr/</a></p>
+</div>
+<div class="section" id="mixer">
+<h2>Mixer<a class="headerlink" href="#mixer" title="Permalink to this headline">¶</a></h2>
+<p>After the synchronization, the output of the PLL will mix the IF signal.
+Let’s say s(t) is the IF signal, and will be mixed by a cosine wave already synchronized.</p>
+<a class="reference internal image-reference" href="../_images/eq_mixer_RX_1.png"><img alt="../_images/eq_mixer_RX_1.png" class="align-center" src="../_images/eq_mixer_RX_1.png" style="width: 600px;" /></a>
+<p>s(t) is composed by the symbols in-phase (a_i) mixed with a cosine and the symbols in quadrature (a_q) mixed with a sine.
+Expanding s(t):</p>
+<a class="reference internal image-reference" href="../_images/eq_mixer_RX_2.png"><img alt="../_images/eq_mixer_RX_2.png" class="align-center" src="../_images/eq_mixer_RX_2.png" style="width: 600px;" /></a>
+<p>The mixing process will result in a baseband signal with high frequency components:</p>
+<a class="reference internal image-reference" href="../_images/eq_mixer_RX_3.png"><img alt="../_images/eq_mixer_RX_3.png" class="align-center" src="../_images/eq_mixer_RX_3.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="../_images/mixer_demod.png"><img alt="../_images/mixer_demod.png" class="align-center" src="../_images/mixer_demod.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="../_images/mixer_demod_fft.png"><img alt="../_images/mixer_demod_fft.png" class="align-center" src="../_images/mixer_demod_fft.png" style="width: 600px;" /></a>
+</div>
+<div class="section" id="low-pass-filter">
+<h2>Low Pass Filter<a class="headerlink" href="#low-pass-filter" title="Permalink to this headline">¶</a></h2>
+<p>Since the only thing that’s important at this point is the baseband signal, a LPF will filter the high frequency components.</p>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">demodulation.</code><code class="sig-name descname">LPF</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal</span></em>, <em class="sig-param"><span class="n">fc</span></em>, <em class="sig-param"><span class="n">Fs</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Low pass filter, Butterworth approximation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> (<em>1D array of floats</em>) – Signal to be filtered.</p></li>
+<li><p><strong>fc</strong> (<em>float</em>) – Cutt-off frequency.</p></li>
+<li><p><strong>Fs</strong> (<em>float</em>) – Sampling frequency.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>signal_filt</strong> (<em>1D array of floats</em>) – Filtered signal.</p></li>
+<li><p><strong>W</strong> (<em>1D array of floats</em>) – The frequencies at which ‘h’ was computed, in Hz.</p></li>
+<li><p><strong>h</strong> (<em>complex</em>) – The frequency response.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">sig</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+
+<span class="k">def</span> <span class="nf">LPF</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">fc</span><span class="p">,</span> <span class="n">Fs</span><span class="p">):</span>
+   <span class="n">o</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># order of the filter</span>
+   <span class="n">fc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">fc</span><span class="p">])</span>
+   <span class="n">wn</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">fc</span><span class="o">/</span><span class="n">Fs</span>
+
+   <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">butter</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">wn</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s1">&#39;lowpass&#39;</span><span class="p">)</span>
+   <span class="p">[</span><span class="n">W</span><span class="p">,</span> <span class="n">h</span><span class="p">]</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">freqz</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">worN</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
+
+   <span class="n">W</span> <span class="o">=</span> <span class="n">Fs</span><span class="o">*</span><span class="n">W</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span>
+
+   <span class="n">signal_filt</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">lfilter</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">signal</span><span class="p">)</span>
+   <span class="k">return</span><span class="p">(</span><span class="n">signal_filt</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/LPF.png"><img alt="../_images/LPF.png" class="align-center" src="../_images/LPF.png" style="width: 600px;" /></a>
+</div>
+<div class="section" id="matched-filter">
+<h2>Matched Filter<a class="headerlink" href="#matched-filter" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">demodulation.</code><code class="sig-name descname">matched_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal</span></em>, <em class="sig-param"><span class="n">template</span></em><span class="sig-paren">)</span></dt>
+<dd><p>Convolutes the baseband signal with the template of the impulse response used in the modulator (Square Root Raised Cossine) to increase the SNR.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> (<em>1D array of floats</em>) – Baseband signal to be filtered.</p></li>
+<li><p><strong>template</strong> (<em>1D array of floats</em>) – Impulse response of the filter used at the signal shaping block</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>signal_filt</strong> – Filtered signal.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>1D array of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">matched_filter</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">template</span><span class="p">):</span>
+   <span class="n">signal_filt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="s1">&#39;full&#39;</span><span class="p">)</span>
+   <span class="k">return</span><span class="p">(</span><span class="n">signal_filt</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/matched_filter.png"><img alt="../_images/matched_filter.png" class="align-center" src="../_images/matched_filter.png" style="width: 600px;" /></a>
+</div>
+<div class="section" id="downsampler">
+<h2>Downsampler<a class="headerlink" href="#downsampler" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">demodulation.</code><code class="sig-name descname">downsampler</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">signal</span></em>, <em class="sig-param"><span class="n">packet_s</span></em>, <em class="sig-param"><span class="n">upsampler_f</span></em><span class="sig-paren">)</span></dt>
+<dd><p>The algorithm analizes the synchronization symbols and tries to find the sample where the value of the symbol is maximum. After that, is possible to estimate in which sample the information begins to appear on the signal (i.e. detects the delay)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> (<em>1D array of floats</em>) – Baseband signal.</p></li>
+<li><p><strong>packet_s</strong> (<em>int</em>) – Number of bits in the transmitted packet.</p></li>
+<li><p><strong>upsampler_f</strong> (<em>int</em>) – Upsampler factor used at the modulator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>symbols</strong> – The sampled symbols.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>1D array of floats</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">downsampler</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">packet_s</span><span class="p">,</span> <span class="n">upsampler_f</span><span class="p">):</span>
+   <span class="n">e</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="n">gardner_e</span> <span class="o">=</span> <span class="p">[]</span>
+   <span class="n">peak_sample</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="n">peak_sample_acc</span> <span class="o">=</span> <span class="p">[]</span>
+   <span class="n">low_point</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="n">threshold</span> <span class="o">=</span> <span class="mi">4</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">)):</span>
+      <span class="k">if</span> <span class="n">signal</span><span class="p">[</span><span class="n">low_point</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">threshold</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">signal</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+               <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">signal</span><span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span> <span class="o">-</span>
+                     <span class="nb">abs</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span> <span class="o">*</span> <span class="nb">abs</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+               <span class="n">gardner_e</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+               <span class="k">if</span> <span class="n">e</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">:</span>
+                  <span class="n">peak_sample</span> <span class="o">=</span> <span class="n">peak_sample</span> <span class="o">+</span> <span class="mi">1</span>
+                  <span class="n">peak_sample_acc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">peak_sample</span><span class="p">)</span>
+               <span class="k">elif</span> <span class="n">e</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.8</span><span class="p">:</span>
+                  <span class="n">peak_sample</span> <span class="o">=</span> <span class="n">peak_sample</span> <span class="o">-</span> <span class="mi">1</span>
+                  <span class="n">peak_sample_acc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">peak_sample</span><span class="p">)</span>
+               <span class="k">else</span><span class="p">:</span>
+                  <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+               <span class="n">peak_sample</span> <span class="o">=</span> <span class="n">peak_sample</span> <span class="o">+</span> <span class="mi">1</span>
+               <span class="n">peak_sample_acc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">peak_sample</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+            <span class="n">low_point</span> <span class="o">=</span> <span class="n">low_point</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">peak_sample</span> <span class="o">=</span> <span class="n">peak_sample</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">peak_sample_acc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">peak_sample</span><span class="p">)</span>
+
+   <span class="c1"># 450 is the number of samples before the convergence symbol of the algorithm.</span>
+   <span class="n">cut_i</span> <span class="o">=</span> <span class="n">peak_sample</span> <span class="o">-</span> <span class="mi">450</span>
+   <span class="n">cut_f</span> <span class="o">=</span> <span class="n">cut_i</span> <span class="o">+</span> <span class="nb">int</span><span class="p">((</span><span class="n">packet_s</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">upsampler_f</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cut_i = &quot;</span><span class="p">,</span> <span class="n">cut_i</span><span class="p">)</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cut_f = &quot;</span><span class="p">,</span> <span class="n">cut_f</span><span class="p">)</span>
+
+   <span class="c1"># For the code to still work, even when there is a big BER, this secction is required.</span>
+   <span class="k">if</span> <span class="n">cut_i</span> <span class="o">&gt;</span> <span class="mi">730</span><span class="p">:</span>
+      <span class="n">signal</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="mi">261</span><span class="p">:</span><span class="mi">2306</span><span class="o">+</span><span class="mi">510</span><span class="p">]</span>
+   <span class="k">elif</span> <span class="n">cut_i</span> <span class="o">&lt;</span> <span class="mi">690</span><span class="p">:</span>
+      <span class="n">signal</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="mi">261</span><span class="p">:</span><span class="mi">2306</span><span class="o">+</span><span class="mi">510</span><span class="p">]</span>
+   <span class="k">else</span><span class="p">:</span>
+      <span class="n">signal</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="n">cut_i</span><span class="p">:</span><span class="n">cut_f</span><span class="p">]</span>
+
+   <span class="n">symbols</span> <span class="o">=</span> <span class="n">signal</span><span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">),</span> <span class="n">upsampler_f</span><span class="p">)]</span>
+   <span class="k">return</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/downsampler.png"><img alt="../_images/downsampler.png" class="align-center" src="../_images/downsampler.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="../_images/constellation_RX.png"><img alt="../_images/constellation_RX.png" class="align-center" src="../_images/constellation_RX.png" style="width: 600px;" /></a>
+</div>
+<div class="section" id="demapper">
+<h2>Demapper<a class="headerlink" href="#demapper" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname">demodulation.</code><code class="sig-name descname">demapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">symbols_I</span></em>, <em class="sig-param"><span class="n">symbols_Q</span></em>, <em class="sig-param"><span class="n">packetSize</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">3.0</span></em><span class="sig-paren">)</span></dt>
+<dd><dl>
+<dt>Generates an array of bits using the values based on the 16QAM indexing vector.</dt><dd><ul class="simple">
+<li><p>If the symbol amplitude is between 0 and the threshold, it correponds to the bits 10, if it’s greater than the threshold, it corresponds to the sequence 11.</p></li>
+<li><p>If the symbol amplitude is between 0 and -threshold, it correponds to the bits 01, if it’s lower than -threshold, it corresponds to the sequence 00.</p></li>
+</ul>
+<p>After the recovery of the bits, both vectors (I and Q) are merged, genereting the output bit stream.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>symbols_I</strong> (<em>1D array of floats</em>) – Downsampled in-phase symbols.</p></li>
+<li><p><strong>symbols_Q</strong> (<em>1D array of floats</em>) – Downsampled quadrature symbols.</p></li>
+<li><p><strong>packetSize</strong> (<em>int</em>) – Number of bits in the transmitted packet.</p></li>
+<li><p><strong>threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – The limit between two symbols in the 16QAM constellation. The default value is 3.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>bitstream</strong> – Bits transmitted.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>1D array of ints</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">demapper</span><span class="p">(</span><span class="n">symbols_I</span><span class="p">,</span> <span class="n">symbols_Q</span><span class="p">,</span> <span class="n">packetSize</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">):</span>
+   <span class="n">Ns</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">packetSize</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+   <span class="n">bits_I</span> <span class="o">=</span> <span class="p">[]</span>
+   <span class="n">bits_Q</span> <span class="o">=</span> <span class="p">[]</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Ns</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">symbols_I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">symbols_I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">bits_I</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">bits_I</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">symbols_I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">bits_I</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">bits_I</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">symbols_I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">symbols_I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="n">threshold</span><span class="p">:</span>
+            <span class="n">bits_I</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">bits_I</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">symbols_I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">threshold</span><span class="p">:</span>
+            <span class="n">bits_I</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">bits_I</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">symbols_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">symbols_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">bits_Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">bits_Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">symbols_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">bits_Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">bits_Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">symbols_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">symbols_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="n">threshold</span><span class="p">:</span>
+            <span class="n">bits_Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">bits_Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+      <span class="k">if</span> <span class="n">symbols_Q</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="n">threshold</span><span class="p">:</span>
+            <span class="n">bits_Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">bits_Q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+   <span class="n">bits_I</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">bits_I</span><span class="p">))</span>
+   <span class="n">bits_Q</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">bits_Q</span><span class="p">))</span>
+
+   <span class="n">bitStream</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">packetSize</span><span class="p">)</span>
+
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bits_I</span><span class="p">)):</span>
+      <span class="n">bitStream</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">bits_I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+      <span class="n">bitStream</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">bits_Q</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+   <span class="k">return</span><span class="p">(</span><span class="n">bitStream</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/demapper.png"><img alt="../_images/demapper.png" class="align-center" src="../_images/demapper.png" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="../_images/demapper_1.png"><img alt="../_images/demapper_1.png" class="align-center" src="../_images/demapper_1.png" style="width: 400px;" /></a>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="exemples.html" class="btn btn-neutral float-right" title="Exemple" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="channel.html" class="btn btn-neutral float-left" title="Channel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Arthur Cruz Morbach, Jonas Dandanel de Castro, Sandro Binsfeld Ferreira.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

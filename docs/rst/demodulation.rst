@@ -72,20 +72,20 @@ Mixer
 *****
 
 After the synchronization, the output of the PLL will mix the IF signal. 
-Let's say s(t) is the IF signal, and will be mixed by a cosine wave already synchronized.
+Let's say s(t) is the IF signal and will be mixed by a cosine wave already synchronized.
 
 .. image:: images/eq_mixer_RX_1.png
    :width: 600
    :align: center
 
-s(t) is composed by the symbols in-phase (a_i) mixed with a cosine and the symbols in quadrature (a_q) mixed with a sine.
+s(t) is composed of the symbols in-phase (a_i) mixed with cosine and the symbols in quadrature (a_q) mixed with a sine.
 Expanding s(t):
 
 .. image:: images/eq_mixer_RX_2.png
    :width: 600
    :align: center
 
-The mixing process will result in a baseband signal with high frequency components:
+The mixing process will result in a baseband signal with high-frequency components:
 
 .. image:: images/eq_mixer_RX_3.png
    :width: 600
@@ -102,7 +102,7 @@ The mixing process will result in a baseband signal with high frequency componen
 Low Pass Filter
 ***************
 
-Since the only thing that's important at this point is the baseband signal, a LPF will filter the high frequency components.
+Since the only thing that's important at this point is the baseband signal, an LPF will filter the high-frequency components.
 
 .. automodule:: demodulation
    :members: LPF

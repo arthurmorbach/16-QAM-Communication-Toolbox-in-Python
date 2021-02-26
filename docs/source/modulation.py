@@ -4,7 +4,7 @@ import commpy as cp
 from math import pi
 
 def data_gen(N, data_sync=0):
-    """Generates an array of data. If the synchronization bits are not informed a default sequece will be used.
+    """Generates an array of data. If the synchronization bits are not informed a default sequence will be used.
 
     Parameters
     ----------
@@ -97,7 +97,7 @@ def upsampler(Ns, K, symbols):
 
 
 def shaping_filter(upsampler, Ns, alpha, Fif, Fs):
-    """To give the symbols a shape, a convolution is made between the upsampled symbols and the impulse response of a square root raised cossine filter.
+    """To give the symbols a shape, a convolution is made between the upsampled symbols and the impulse response of a square root raised cosine filter.
     It also arranges the information in a defined frequency spectrum and is projected in a way to reduce the intersymbol interference.
 
     Parameters
@@ -128,7 +128,7 @@ def shaping_filter(upsampler, Ns, alpha, Fif, Fs):
 
 
 def oscillator(start, stop, step, frequency, phase=0):
-    """Generates the carryer signal.
+    """Generates the carrier signal.
 
     Parameters
     ----------

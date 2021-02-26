@@ -1,9 +1,4 @@
-.. 16-QAM Communication System documentation master file, created by
-   sphinx-quickstart on Tue Feb  9 19:32:39 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-16-QAM Communication System's documentation.
+16 QAM Communication Toolbox in Python
 =======================================================
 
 .. image:: rst/images/open.png

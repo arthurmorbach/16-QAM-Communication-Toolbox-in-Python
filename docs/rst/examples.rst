@@ -1,4 +1,4 @@
-Exemple
+Example
 ========
 
 This example demonstrates the implementation of a 16-QAM communication system.

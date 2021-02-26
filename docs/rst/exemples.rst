@@ -1,9 +1,10 @@
 Exemple
 ========
+
 This example demonstrates the implementation of a 16-QAM communication system.
        Link: https://youtu.be/vZQu4YDwEKc
 
-The code follows the block diagram bellow:
+The code follows the block diagram below:
 
 .. image:: images/16QAM_Modulator.png
    :width: 800

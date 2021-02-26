@@ -21,7 +21,7 @@ This documentation covers the main blocks used in a 16-QAM communication system.
    rst/modulation
    rst/channel
    rst/demodulation
-   rst/exemples
+   rst/examples
    rst/BER_SNR_analysis
    rst/license
    rst/help

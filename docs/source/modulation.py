@@ -141,7 +141,7 @@ def oscillator(start, stop, step, frequency, phase=0):
     frequency : float
         Frequency of oscillation in Hz.
     phase : float, optional
-        Phase of the sinusuidal wave. The default phase is 0.
+        Phase of the sinusoidal wave. The default phase is 0.
 
     Returns
     -------

@@ -17,7 +17,7 @@ sys.path.append('source')
 
 # -- Project information -----------------------------------------------------
 
-project = '16-QAM Communication System'
+project = '16 QAM Communication Toolbox in Python'
 copyright = '2021, Arthur Cruz Morbach, Jonas Dandanel de Castro, Sandro Binsfeld Ferreira'
 author = 'Arthur Cruz Morbach, Jonas Dandanel de Castro, Sandro Binsfeld Ferreira'
 

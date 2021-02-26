@@ -109,7 +109,7 @@ def LPF(signal, fc, Fs):
 
 
 def matched_filter(signal, template):
-    """Convolutes the baseband signal with the template of the impulse response used in the modulator (Square Root Raised Cossine) to increase the SNR.
+    """Convolutes the baseband signal with the template of the impulse response used in the modulator (Square Root Raised Cosine) to increase the SNR.
 
     Parameters
     ----------
@@ -128,7 +128,7 @@ def matched_filter(signal, template):
 
 
 def downsampler(signal, packet_s, upsampler_f):
-    """The algorithm analizes the synchronization symbols and tries to find the sample where the value of the symbol is maximum. After that, is possible to estimate in which sample the information begins to appear on the signal (i.e. detects the delay)
+    """The algorithm analyzes the synchronization symbols and tries to find the sample where the value of the symbol is maximum. After that, is possible to estimate in which sample the information begins to appear on the signal (i.e. detects the delay)
     
     Parameters
     ----------
@@ -192,9 +192,9 @@ def downsampler(signal, packet_s, upsampler_f):
 
 def demapper(symbols_I, symbols_Q, packetSize, threshold = 3.0):
     """Generates an array of bits using the values based on the 16QAM indexing vector.
-       - If the symbol amplitude is between 0 and the threshold, it correponds to the bits 10, if it's greater than the threshold, it corresponds to the sequence 11.
-       - If the symbol amplitude is between 0 and -threshold, it correponds to the bits 01, if it's lower than -threshold, it corresponds to the sequence 00.
-       After the recovery of the bits, both vectors (I and Q) are merged, genereting the output bit stream.
+       - If the symbol amplitude is between 0 and the threshold, it corresponds to the bits 10, if it's greater than the threshold, it corresponds to the sequence 11.
+       - If the symbol amplitude is between 0 and -threshold, it corresponds to the bits 01, if it's lower than -threshold, it corresponds to the sequence 00.
+       After the recovery of the bits, both vectors (I and Q) are merged, generating the output bitstream.
 
     Parameters
     ----------

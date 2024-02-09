@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import scipy.signal as sig
-from math import pi
 import math
 
 def PLL(input_signal, Fs, lenght, N):
@@ -31,20 +30,20 @@ def PLL(input_signal, Fs, lenght, N):
 
     zeta = .707  # damping factor
     k = 1
-    Bn = 0.01*Fs  #Noise Bandwidth
+    Bn = 0.01 * Fs  #Noise Bandwidth
     K_0 = 1  # NCO gain
-    K_d = 1/2  # Phase Detector gain
-    K_p = (1/(K_d*K_0))*((4*zeta)/(zeta+(1/(4*zeta)))) * \
-        (Bn/Fs)  # Proporcional gain
-    K_i = (1/(K_d*K_0))*(4/(zeta+(1/(4*zeta)**2))) * \
-        (Bn/Fs)**2  # Integrator gain
+    K_d = 1 / 2  # Phase Detector gain
+    K_p = (1 / (K_d * K_0)) * ((4 * zeta) / (zeta + (1 / (4 * zeta)))) * \
+        (Bn / Fs)  # Proporcional gain
+    K_i = (1 / (K_d * K_0)) * (4 / (zeta + (1 / (4 * zeta)**2))) * \
+        (Bn / Fs)**2  # Integrator gain
     integrator_out = 0
     phase_estimate = np.zeros(lenght)
     e_D = []  # phase-error output
     e_F = []  # loop filter output
     sin_out_n = np.zeros(lenght)
     cos_out_n = np.ones(lenght)
-    for n in range(lenght-1):
+    for n in range(lenght - 1):
         # phase detector
         try:
             e_D.append(
@@ -56,22 +55,22 @@ def PLL(input_signal, Fs, lenght, N):
         e_F.append(K_p * e_D[n] + integrator_out)
         # NCO
         try:
-            phase_estimate[n+1] = phase_estimate[n] + K_0 * e_F[n]
+            phase_estimate[n + 1] = phase_estimate[n] + K_0 * e_F[n]
         except IndexError:
-            phase_estimate[n+1] = K_0 * e_F[n]
-        sin_out_n[n+1] = -np.sin(2*np.pi*(k/N)*(n+1) + phase_estimate[n])
-        cos_out_n[n+1] = np.cos(2*np.pi*(k/N)*(n+1) + phase_estimate[n])
+            phase_estimate[n + 1] = K_0 * e_F[n]
+        sin_out_n[n + 1] = -np.sin(2 * np.pi * (k / N) * (n + 1) + phase_estimate[n])
+        cos_out_n[n + 1] = np.cos(2 * np.pi * (k / N) * (n + 1) + phase_estimate[n])
         
     sin_out_n = -sin_out_n
-    cos_out = cos_out_n[280:400]
-    sin_out = sin_out_n[280:400]
+    cos_out = cos_out_n[280 : 400]
+    sin_out = sin_out_n[280 : 400]
     
     for i in range(18):
         cos_out = np.concatenate(
-            (cos_out, cos_out_n[280:400], cos_out_n[280:400]), axis=None)
+            (cos_out, cos_out_n[280 : 400], cos_out_n[280 : 400]), axis=None)
         sin_out = np.concatenate(
-            (sin_out, sin_out_n[280:400], sin_out_n[280:400]), axis=None)
-    return(cos_out, sin_out)
+            (sin_out, sin_out_n[280 : 400], sin_out_n[280 : 400]), axis=None)
+    return cos_out, sin_out
 
 
 def LPF(signal, fc, Fs):
@@ -97,15 +96,15 @@ def LPF(signal, fc, Fs):
     """
     o = 5  # order of the filter
     fc = np.array([fc])
-    wn = 2*fc/Fs
+    wn = 2 * fc / Fs
 
     [b, a] = sig.butter(o, wn, btype='lowpass')
     [W, h] = sig.freqz(b, a, worN=1024)
 
-    W = Fs*W/(2*pi)
+    W = Fs * W / (2 * np.pi)
 
     signal_filt = sig.lfilter(b, a, signal)
-    return(signal_filt, W, h)
+    return signal_filt, W, h
 
 
 def matched_filter(signal, template):
@@ -123,8 +122,7 @@ def matched_filter(signal, template):
     signal_filt : 1D array of floats
         Filtered signal.
     """
-    signal_filt = np.convolve(signal, template, 'full')
-    return(signal_filt)
+    return np.convolve(signal, template, 'full')
 
 
 def downsampler(signal, packet_s, upsampler_f):
@@ -153,8 +151,8 @@ def downsampler(signal, packet_s, upsampler_f):
     for i in range(len(signal)):
         if signal[low_point] < -threshold:
             if signal[i] > threshold:
-                e = (abs(signal[(i+1)]) -
-                     abs(signal[i-1])) * abs(signal[i])
+                e = (abs(signal[(i + 1)]) -
+                     abs(signal[i - 1])) * abs(signal[i])
                 gardner_e.append(e)
                 if e > 0.8:
                     peak_sample = peak_sample + 1
@@ -174,20 +172,20 @@ def downsampler(signal, packet_s, upsampler_f):
 
     # 450 is the number of samples before the convergence symbol of the algorithm.
     cut_i = peak_sample - 450
-    cut_f = cut_i + int((packet_s/4)*upsampler_f)
+    cut_f = cut_i + int((packet_s / 4) * upsampler_f)
     print("Cut_i = ", cut_i)
     print("Cut_f = ", cut_f)
 
     # For the code to still work, even when there is a big BER, this secction is required.
     if cut_i > 730:
-        signal = signal[261:2306+510]
+        signal = signal[261 : 2306 + 510]
     elif cut_i < 690:
-        signal = signal[261:2306+510]
+        signal = signal[261 : 2306 + 510]
     else:
-        signal = signal[cut_i:cut_f]
+        signal = signal[cut_i : cut_f]
 
     symbols = signal[slice(0, len(signal), upsampler_f)]
-    return(symbols)
+    return symbols
 
 
 def demapper(symbols_I, symbols_Q, packetSize, threshold = 3.0):
@@ -212,7 +210,7 @@ def demapper(symbols_I, symbols_Q, packetSize, threshold = 3.0):
     bitstream : 1D array of ints
         Bits transmitted.
     """
-    Ns = int(packetSize/4)
+    Ns = packetSize // 4
     bits_I = []
     bits_Q = []
     for i in range(Ns):
@@ -247,15 +245,15 @@ def demapper(symbols_I, symbols_Q, packetSize, threshold = 3.0):
         if symbols_Q[i] < -threshold:
             bits_Q.append(0)
             bits_Q.append(0)
+        
+    bits_I = np.array(bits_I, dtype=int)
+    bits_Q = np.array(bits_Q, dtype=int)
 
-    bits_I = list(map(int, bits_I))
-    bits_Q = list(map(int, bits_Q))
+    bitStream = np.zeros(packetSize, dtype=int)
 
-    bitStream = np.zeros(packetSize)
+    bitStream[::2] = bits_I
+    bitStream[1::2] = bits_Q
 
-    for i in range(len(bits_I)):
-        bitStream[2*i] = bits_I[i]
-        bitStream[2*i-1] = bits_Q[i-1]
-    return(bitStream)
+    return bitStream
 
     

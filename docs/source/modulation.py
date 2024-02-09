@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import commpy as cp
-from math import pi
 
 def data_gen(N, data_sync=0):
     """Generates an array of data. If the synchronization bits are not informed a default sequence will be used.
@@ -19,16 +18,12 @@ def data_gen(N, data_sync=0):
         Pseudo randomic data with synchronization bits.
     """    
     if data_sync == 0:
-        data_sync_osc = []
-        for i in range(176):
-            data_sync_osc.append(1)
+        data_sync_osc = np.ones(176, dtype=int)
         data_sync_symb = [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1]  
         data_sync = np.concatenate((data_sync_osc, data_sync_symb), axis=None)
-    data_r = np.random.rand(N - len(data_sync))
-    data_r[np.where(data_r >= 0.5)] = 1
-    data_r[np.where(data_r < 0.5)] = 0
-    data = np.concatenate((data_sync, data_r), axis=None)
-    return(data)
+    data_r = np.random.randint(2, size=N - len(data_sync))
+    data = np.concatenate((data_sync, data_r))
+    return data
 
 
 def slicer(data): 
@@ -46,10 +41,9 @@ def slicer(data):
     dataQ : 1D array of ints
         Array with the odd position bits.
     """    
-  
     dataI = data[slice(0, len(data), 2)]
     dataQ = data[slice(1, len(data), 2)]
-    return(dataI, dataQ)
+    return dataI, dataQ
 
 
 def mapper_16QAM(QAM16, data):
@@ -67,13 +61,12 @@ def mapper_16QAM(QAM16, data):
     dataMapped : 1D array of floats
         Array with the mapped data.
     """    
-    map0 = 2*data[slice(0, len(data), 2)] + data[slice(1, len(data), 2)]
-    map0 = list(map(int, map0))
-    dataMapped = []
-    for i in range(len(map0)):
-        dataMapped.append(QAM16[map0[i]])
-    return(dataMapped)
 
+    map_indices = 2 * data[:-1:2] + data[1::2]
+    dataMapped = np.take(QAM16, map_indices)
+    return dataMapped
+
+    
 def upsampler(Ns, K, symbols):
     """Increases the symbol samples by adding zeros between each value.
 
@@ -90,10 +83,10 @@ def upsampler(Ns, K, symbols):
     -------
     up : 1D array of floats
         Array with the upsampled data.
-    """   
-    up = np.zeros(Ns*K)
-    up[slice(0, len(up), K)] = symbols
-    return(up)
+    """       
+    up = np.zeros(Ns * K)
+    up[::K] = symbols
+    return up
 
 
 def shaping_filter(upsampler, Ns, alpha, Fif, Fs):
@@ -122,9 +115,9 @@ def shaping_filter(upsampler, Ns, alpha, Fif, Fs):
     y_response : 1D array of floats
         Array with the amplitudes varying regarding the domain.
     """
-    [x_axis, y_response] = cp.rrcosfilter(Ns, alpha, 2/Fif, Fs)
+    [x_axis, y_response] = cp.rrcosfilter(Ns, alpha, 2 / Fif, Fs)
     shaped_signal = np.convolve(upsampler, y_response, 'full')
-    return(shaped_signal, x_axis, y_response)
+    return shaped_signal, x_axis, y_response
 
 
 def oscillator(start, stop, step, frequency, phase=0):
@@ -151,8 +144,8 @@ def oscillator(start, stop, step, frequency, phase=0):
         Data domain.
     """
     t = np.arange(start, stop, step)
-    Osc = np.sin(2*pi*frequency*t + phase)
-    return(Osc, t)
+    Osc = np.sin(2 * np.pi * frequency * t + phase)
+    return Osc, t
 
 
 def mixer(signal, carrier):
@@ -170,10 +163,7 @@ def mixer(signal, carrier):
     mix : 1D array of floats
         Mixed signal.
     """
-    mix = []
-    for i in range(len(signal)):
-        mix.append(signal[i]*carrier[i])
-    return(mix)
+    return np.multiply(signal, carrier[:len(signal)])
 
 def combiner(signal_I, signal_Q):
     """It's a pointwase sum, combining the modulated signals in quadrature.
@@ -190,7 +180,4 @@ def combiner(signal_I, signal_Q):
     combined_sig : 1D array of floats
         Quadrature signal.
     """
-    combined_sig = []
-    for i in range(len(signal_I)):
-        combined_sig.append(signal_I[i] + signal_Q[i])
-    return(combined_sig)
+    return np.add(signal_I, signal_Q)

@@ -40,12 +40,6 @@ def QAMsys(SNR, plot = 1):
 
    # Pseudo-Rand Generator with synchronization bits
    data = qf.modulation.data_gen(Ns * Bs)
-   
-   if plot == 1:
-      plt.figure(0)
-      plt.stem(data)
-      plt.title('Data')
-      plt.grid()
 
    # Slicer
    (dataI, dataQ) = qf.modulation.slicer(data)
@@ -67,7 +61,7 @@ def QAMsys(SNR, plot = 1):
    # Oscillator
    delta_phase = np.random.normal(0, np.pi / 3, 1)
    delta_freq = np.random.normal(0, 20, 1)
-
+   
    (loCos_TX, t) = qf.modulation.oscillator(0, 4e-4, 2 /
                                  (Fif * K),  Fif + delta_freq, delta_phase + np.pi / 2)
    (loSin_TX, t) = qf.modulation.oscillator(0, 4e-4, 2 /
@@ -104,6 +98,11 @@ def QAMsys(SNR, plot = 1):
    symbols_Q = qf.demodulation.downsampler(signal_Q, len(data), K)
 
    if plot == 1:
+      plt.figure(0)
+      plt.stem(data)
+      plt.title('Data')
+      plt.grid()
+      
       plt.figure(1)
       plt.subplot(2, 1, 1)
       plt.stem(mapI)
@@ -357,5 +356,3 @@ def QAMsys(SNR, plot = 1):
    print("\n\n\n")
 
    return BER / 100
-
-QAMsys(25)

@@ -3,7 +3,7 @@ import numpy as np
 import scipy.signal as sig
 import math
 
-def PLL(input_signal, Fs, lenght, N):
+def PLL(input_signal, Fs, length, N):
     """Synchronizes the input carryer signal with the local oscillator to avoid crosstalk due to phase and frequency differences between TX and RX.
 
     Parameters
@@ -12,8 +12,8 @@ def PLL(input_signal, Fs, lenght, N):
         Complex signal received at the input of the demodulator.
     Fs : float
         Sampling frequency.
-    lenght : int
-        Lenght of the output vector.
+    length : int
+        Length of the output vector.
     N : int
         Samples per period of the sinusuidal wave.
 
@@ -38,12 +38,12 @@ def PLL(input_signal, Fs, lenght, N):
     K_i = (1 / (K_d * K_0)) * (4 / (zeta + (1 / (4 * zeta)**2))) * \
         (Bn / Fs)**2  # Integrator gain
     integrator_out = 0
-    phase_estimate = np.zeros(lenght)
+    phase_estimate = np.zeros(length)
     e_D = []  # phase-error output
     e_F = []  # loop filter output
-    sin_out_n = np.zeros(lenght)
-    cos_out_n = np.ones(lenght)
-    for n in range(lenght - 1):
+    sin_out_n = np.zeros(length)
+    cos_out_n = np.ones(length)
+    for n in range(length - 1):
         # phase detector
         try:
             e_D.append(

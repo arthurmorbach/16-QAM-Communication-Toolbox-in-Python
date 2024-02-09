@@ -163,7 +163,7 @@ def mixer(signal, carrier):
     mix : 1D array of floats
         Mixed signal.
     """
-    return np.multiply(signal, carrier[:len(signal)])
+    return np.multiply(signal, carrier[0 : len(signal)])
 
 def combiner(signal_I, signal_Q):
     """It's a pointwase sum, combining the modulated signals in quadrature.

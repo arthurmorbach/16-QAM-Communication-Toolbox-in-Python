@@ -14,21 +14,11 @@ Additive White Gaussian Noise
 
    import numpy as np
 
-   def AWGN(IFsig, SNR):
-      dP = np.zeros(len(IFsig))
-      P = 0
-
-      for i in range(len(IFsig)):
-         dP[i] = abs(IFsig[i])**2
-         P = P + dP[i]
-
-      P = P/len(IFsig)
-      gamma = 10**(SNR/10)
-      N0 = P/gamma
-      n = ((N0/2)**(0.5))*np.random.standard_normal(len(IFsig))
-      IF_n = np.zeros(len(IFsig))
-
-      for i in range(len(IFsig)):
-         IF_n[i] = IFsig[i] + n[i]
-
-      return(IF_n)
+   def AWGN(sig, SNR, K):
+    sig_abs2 = [abs(s)**2 for s in sig]
+    P = (K * sum(sig_abs2)) / len(sig_abs2)
+    gamma = 10**(SNR/10)
+    N0 = P / gamma
+    n = np.sqrt(N0 / 2) * np.random.standard_normal(len(sig))
+    sig_n = sig + n
+    return sig_n

@@ -36,6 +36,5 @@ def SNR_BER_analysis():
     plt.xlabel('SNR (dB)')
     plt.ylabel('BER')
     plt.grid()
-    plt.show()
     
-SNR_BER_analysis()
+    plt.show()

@@ -16,13 +16,13 @@ Data Generator
    import numpy as np
 
    def data_gen(N, data_sync=0):
-    if data_sync == 0:
-        data_sync_osc = np.ones(176, dtype=int)
-        data_sync_symb = [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1]  
-        data_sync = np.concatenate((data_sync_osc, data_sync_symb), axis=None)
-    data_r = np.random.randint(2, size=N - len(data_sync))
-    data = np.concatenate((data_sync, data_r))
-    return data
+      if data_sync == 0:
+         data_sync_osc = np.ones(176, dtype=int)
+         data_sync_symb = [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1]  
+         data_sync = np.concatenate((data_sync_osc, data_sync_symb), axis=None)
+      data_r = np.random.randint(2, size=N - len(data_sync))
+      data = np.concatenate((data_sync, data_r))
+      return data
 
 .. image:: images/data.png
    :width: 600
@@ -42,7 +42,7 @@ Slicer
    def slicer(data): 
       dataI = data[slice(0, len(data), 2)]
       dataQ = data[slice(1, len(data), 2)]
-      return(dataI, dataQ)
+      return dataI, dataQ
 
 .. image:: images/slicer.png
    :width: 600
@@ -60,9 +60,9 @@ Mapper
 .. code-block:: python
 
    def mapper_16QAM(QAM16, data):    
-    map_indices = 2 * data[:-1:2] + data[1::2]
-    dataMapped = np.take(QAM16, map_indices)
-    return dataMapped
+      map_indices = 2 * data[:-1:2] + data[1::2]
+      dataMapped = np.take(QAM16, map_indices)
+      return dataMapped
 
 .. image:: images/mapper.png
    :width: 600

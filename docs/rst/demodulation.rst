@@ -275,7 +275,7 @@ Demapper
       bitStream[::2] = bits_I
       bitStream[1::2] = bits_Q
 
-    return bitStream
+      return bitStream
 
 .. image:: images/demapper.png
    :width: 600

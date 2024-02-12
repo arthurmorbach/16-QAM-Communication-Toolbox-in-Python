@@ -59,8 +59,8 @@ def QAMsys(SNR, plot = 1):
    template = b
 
    # Oscillator
-   delta_phase = np.random.normal(0, np.pi / 3, 1)
-   delta_freq = np.random.normal(0, 20, 1)
+   delta_phase = 0 #np.random.normal(0, np.pi / 3, 1)
+   delta_freq = 0 #np.random.normal(0, 20, 1)
    
    (loCos_TX, t) = qf.modulation.oscillator(0, 4e-4, 2 /
                                  (Fif * K),  Fif + delta_freq, delta_phase + np.pi / 2)

@@ -213,6 +213,13 @@ def demapper(symbols_I, symbols_Q, packetSize, threshold = 3.0):
     Ns = packetSize // 4
     bits_I = []
     bits_Q = []
+    
+    size_diff = len(symbols_I) - len(symbols_Q)
+    if size_diff > 0:
+        symbols_Q = np.concatenate((symbols_Q, np.zeros(size_diff)))
+    elif size_diff < 0:
+        symbols_I = np.concatenate((symbols_I, np.zeros(abs(size_diff))))
+        
     for i in range(Ns):
         if symbols_I[i] >= 0 and symbols_I[i] <= threshold:
             bits_I.append(1)

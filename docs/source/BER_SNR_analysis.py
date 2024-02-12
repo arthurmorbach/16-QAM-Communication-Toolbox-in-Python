@@ -13,7 +13,7 @@ def SNR_BER_analysis():
     """Analyze the BER for each SNR value."""
     plt.close('all')
 
-    n_tests_per_snr = 50
+    n_tests_per_snr = 400
     max_snr = 20
 
     SNR_values = np.arange(1, max_snr + 1)

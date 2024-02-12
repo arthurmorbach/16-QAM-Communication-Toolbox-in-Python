@@ -2,4 +2,4 @@ numpy
 scikit-commpy
 python-math
 scipy
-
+sphinx-rtd-theme
